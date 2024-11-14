@@ -1,13 +1,9 @@
 import React from "react";
+import { priorityClass } from "../utilities/constants";
+import { actionTypesEnum } from "../reducers/ticketReducer";
 
 export default function TicketItem({ ticket, dispatch }) {
   const { id, title, description, priority } = ticket;
-
-  const priorityClass = {
-    1: "priority-low",
-    2: "priority-medium",
-    3: "priority-high",
-  };
 
   return (
     <div className="ticket-item">
@@ -18,7 +14,9 @@ export default function TicketItem({ ticket, dispatch }) {
 
       <button
         className="button"
-        onClick={() => dispatch({ type: "DELETE_TICKET", payload: { id } })}
+        onClick={() =>
+          dispatch({ type: actionTypesEnum.DELETE_TICKET, payload: { id } })
+        }
       >
         Delete
       </button>
@@ -26,7 +24,10 @@ export default function TicketItem({ ticket, dispatch }) {
       <button
         className="button"
         onClick={() =>
-          dispatch({ type: "SET_EDITING_TICKET", payload: ticket })
+          dispatch({
+            type: actionTypesEnum.SET_EDITING_TICKET,
+            payload: ticket,
+          })
         }
       >
         Edit

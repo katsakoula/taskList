@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { actionTypesEnum } from "../reducers/ticketReducer";
+import { priorityLabels } from "../utilities/constants";
 
-export default function TicketForm({ dispatch, editingTicket }) {
+export default function TicketForm({ dispatch, editingTicket }){
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState("1");
@@ -14,12 +16,6 @@ export default function TicketForm({ dispatch, editingTicket }) {
       clearForm();
     }
   }, [editingTicket]);
-
-  const priorityLabels = {
-    1: "Low",
-    2: "Medium",
-    3: "High",
-  };
 
   const clearForm = () => {
     setTitle("");
@@ -37,16 +33,18 @@ export default function TicketForm({ dispatch, editingTicket }) {
     };
 
     dispatch({
-      type: editingTicket ? "UPDATE_TICKET" : "ADD_TICKET",
+      type: editingTicket
+        ? actionTypesEnum.UPDATE_TICKET
+        : actionTypesEnum.ADD_TICKET,
       payload: ticketData,
     });
-
     clearForm();
+    dispatch({ type: actionTypesEnum.CLEAR_EDITING_TICKET });
   };
   const handleCancel = (e) => {
     e.preventDefault();
     clearForm();
-    dispatch({ type: "CLEAR_EDITING_TICKET" });
+    dispatch({ type: actionTypesEnum.CLEAR_EDITING_TICKET });
   };
 
   return (

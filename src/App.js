@@ -2,15 +2,16 @@ import { useReducer } from "react";
 import "./App.css";
 import TicketForm from "./components/TicketForm";
 import TicketList from "./components/TicketList";
-import ticketReducer from "./reducers/ticketReducer";
+import ticketReducer, { actionTypesEnum } from "./reducers/ticketReducer";
 import "./styles.css";
 import { sortTickets } from "./utilities/sortingUtilities";
+import { sortingEnum } from "./utilities/constants";
 
 function App() {
   const initialState = {
     tickets: [],
     editingTicket: null,
-    sortPreference: "Ascending",
+    sortPreference: sortingEnum.ASC,
   };
 
   const [state, dispatch] = useReducer(ticketReducer, initialState);
@@ -32,11 +33,14 @@ function App() {
             <select
               value={state.sortPreference}
               onChange={(e) => {
-                dispatch({ type: "SET_SORTING", payload: e.target.value });
+                dispatch({
+                  type: actionTypesEnum.SET_SORTING,
+                  payload: e.target.value,
+                });
               }}
             >
-              <option value="Ascending">Ascending</option>
-              <option value="Descending">Descending</option>
+              <option value={sortingEnum.ASC}>{sortingEnum.ASC}</option>
+              <option value={sortingEnum.DESC}>{sortingEnum.DESC}</option>
             </select>
 
             <TicketList
